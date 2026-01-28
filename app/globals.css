@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "tailwindcss";
 
 :root {
@@ -22,5 +26,195 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-lato);
+  overflow-x: hidden;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* FRAME SECTION */
+.frame-section {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  margin-bottom: 5px;
+}
+
+.frame-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 10rem;
+  animation: scrollLeft 40s linear infinite;
+}
+
+.frame-content:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ICON BOX */
+.frame-box {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* GLOW */
+.frame-glow {
+  width: 110px;
+  height: 110px;
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  background: linear-gradient(
+    90deg,
+    rgba(69, 144, 113, 0.22),
+    rgba(0, 228, 134, 0.22)
+  );
+  border-radius: 20px;
+  filter: blur(10px);
+}
+
+
+/* INNER */
+.frame-inner {
+  width: 88px;
+  height: 88px;
+  background: rgba(15, 14, 22, 0.85);
+  border-radius: 16px;
+  outline: 1px solid #171717;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* LAYER */
+.frame-layer {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(180deg, #171717, #2a2a2a);
+  border-radius: 12px;
+  position: relative;
+}
+
+/* CIRCLES */
+.frame-circle-outer {
+  width: 68px;
+  height: 68px;
+  background: linear-gradient(180deg, #2a2a2a, #171717);
+  border-radius: 50%;
+  position: absolute;
+  top: 6px;
+  left: 6px;
+}
+
+.frame-circle-inner {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(180deg, #171717, #2a2a2a);
+  border-radius: 50%;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  outline: 1px solid #00e586;
+  box-shadow: 0 16px 16px rgba(0, 0, 0, 0.6);
+}
+
+/* ICON */
+.frame-icon {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 340px));
+  gap: 2.5rem; /* same as gap-10 */
+  justify-content: center;
+  justify-items: center;
+  max-width: 72rem; /* ~ max-w-6xl */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===============================
+   Premium Skill Circle Animations
+   =============================== */
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Utility classes */
+.animate-spin-slow {
+  animation: spin-slow 6s linear infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulseGlow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* One-time entrance rotation */
+@keyframes ring-enter {
+  from {
+    transform: rotate(-90deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-ring-enter {
+  animation: ring-enter 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+
