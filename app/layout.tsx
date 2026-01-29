@@ -1,3 +1,5 @@
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { Metadata } from "next";
 import { Inter, Lato } from "next/font/google";
 import "./globals.css";
@@ -18,6 +20,11 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "Sadeesha Nilakshini | UI/UX Engineer",
   description: "UI/UX Engineer & Frontend Developer Portfolio",
+  icons: {
+    icon: "/profile.png",
+    shortcut: "/profile.png",
+    apple: "/profile.png",
+  },
 };
 
 export default function RootLayout({
@@ -30,6 +37,8 @@ export default function RootLayout({
       <body className="bg-[#0F0E16] text-white">
          <Navbar />
         {children}
+        <Analytics />
+        <SpeedInsights/>
       </body>
     </html>
   );
