@@ -156,7 +156,8 @@ function getDriveDownloadUrl(previewUrl: string) {
       </div>
 
       {/* 🧠 Hero Content */}
-      <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 items-center relative z-10">
+<div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 items-center relative z-10 mt-12 md:mt-0">
+
         {/* LEFT */}
         <div className="flex flex-col sm:gap-2 md:gap-4 text-center md:text-left items-center md:items-start">
           <motion.div

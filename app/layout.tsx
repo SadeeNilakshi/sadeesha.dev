@@ -21,9 +21,9 @@ export const metadata: Metadata = {
   title: "Sadeesha Nilakshini | UI/UX Engineer",
   description: "UI/UX Engineer & Frontend Developer Portfolio",
   icons: {
-    icon: "/profile.png",
-    shortcut: "/profile.png",
-    apple: "/profile.png",
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 };
 
