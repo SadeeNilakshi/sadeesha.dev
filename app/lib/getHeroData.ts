@@ -1,3 +1,4 @@
+import { unstable_noStore as noStore } from "next/cache";
 import { db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -8,6 +9,8 @@ export type HeroData = {
 };
 
 export async function getHeroData(): Promise<HeroData> {
+  noStore();
+  
   // Experience
   const expSnap = await getDoc(doc(db, "experience", "main"));
 

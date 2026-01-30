@@ -1,5 +1,5 @@
 "use client";
-
+export const dynamic = "force-dynamic";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { motion, Variants } from "framer-motion";
@@ -237,18 +237,21 @@ function getDriveDownloadUrl(previewUrl: string) {
               Hire Me
             </a>
 
-            {cv && (
+           {cv && (
   <button
     onClick={() => {
       const previewUrl = getDrivePreviewUrl(cv);
       const downloadUrl = getDriveDownloadUrl(previewUrl);
 
-      // 1️⃣ Open preview
+      // 🚫 kill cache
+      const finalUrl = `${downloadUrl}&nocache=${Date.now()}`;
+
+      // 1️⃣ Open preview (always latest)
       window.open(previewUrl, "_blank");
 
-      // 2️⃣ Trigger download
+      // 2️⃣ Force fresh download
       const a = document.createElement("a");
-      a.href = downloadUrl;
+      a.href = finalUrl;
       a.download = "Sadeesha_Nilakshi_CV.pdf";
       document.body.appendChild(a);
       a.click();
@@ -260,6 +263,7 @@ function getDriveDownloadUrl(previewUrl: string) {
     Download CV
   </button>
 )}
+
 
 
           </motion.div>
