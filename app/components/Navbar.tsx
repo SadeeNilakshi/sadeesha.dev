@@ -28,8 +28,8 @@ export default function Navbar() {
   }, []);
 
   /* 🎯 Active section detection */
- useEffect(() => {
-  const sections = document.querySelectorAll("section[id]:not(#hero)");
+useEffect(() => {
+  const sections = document.querySelectorAll("section[id]");
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -40,25 +40,16 @@ export default function Navbar() {
       });
     },
     {
-      rootMargin: "-40% 0px -50% 0px",
+      rootMargin: "-50% 0px -40% 0px",
+      threshold: 0,
     }
   );
 
   sections.forEach((section) => observer.observe(section));
 
-  const onScroll = () => {
-    if (window.scrollY < window.innerHeight * 0.4) {
-      setActive("hero");
-    }
-  };
-
-  window.addEventListener("scroll", onScroll);
-
-  return () => {
-    observer.disconnect();
-    window.removeEventListener("scroll", onScroll);
-  };
+  return () => observer.disconnect();
 }, []);
+
 
 
   return (
