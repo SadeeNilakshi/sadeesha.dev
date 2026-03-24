@@ -2,27 +2,35 @@ import { FaWhatsapp, FaEnvelope } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer id="footer" className="w-full bg-black/60 backdrop-blur-md border-t border-white/10 text-white px-4 sm:px-6 py-10">
+    <footer
+      id="footer"
+      className="w-full bg-black/60 backdrop-blur-md border-t border-white/10 text-white px-4 sm:px-6 py-10"
+    >
       <div className="max-w-6xl mx-auto flex flex-col items-center gap-6">
-
         {/* TEXT */}
         <p className="text-center text-sm sm:text-lg font-lato text-white/80 max-w-xl">
-          Crafted with code, creativity, and a dash of curiosity — thanks for visiting!
+          Crafted with code, creativity, and a dash of curiosity — thanks for
+          visiting!
         </p>
 
         {/* CONTACT INFO */}
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-10 w-full sm:w-auto">
-
           {/* WhatsApp */}
-          <div className="flex items-center gap-3">
+          <a
+            href="https://wa.me/94743528374"
+            target="_blank"
+            rel="noopener noreferrer"
+            type="link"
+            className="flex items-center gap-3"
+          >
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 flex items-center justify-center text-[#00E586]">
               <FaWhatsapp className="text-sm sm:text-base" />
             </div>
-            <span className="text-xs sm:text-sm text-white">
-              +94&nbsp;743&nbsp;528&nbsp;374
-            </span>
-          </div>
 
+            <span className="text-xs sm:text-sm text-[#00E586]">
+              Contact on WhatsApp
+            </span>
+          </a>
           {/* Email */}
           <div className="flex items-center gap-3 min-w-0">
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 flex items-center justify-center text-[#00E586]">
@@ -32,7 +40,6 @@ export default function Footer() {
               sadeeshanilakshi25@gmail.com
             </span>
           </div>
-
         </div>
 
         {/* DIVIDER */}
@@ -44,9 +51,7 @@ export default function Footer() {
           <strong className="text-white font-semibold">Sadeesha.dev</strong>
           <span>All Rights Reserved.</span>
         </div>
-
       </div>
     </footer>
   );
 }
-
