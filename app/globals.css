@@ -10,6 +10,11 @@
 }
 
 @layer base {
+  /* Framer Motion measures scroll-linked effects relative to a positioned <html> */
+  html {
+    position: relative;
+  }
+
   /* Native smooth scrolling only when Lenis isn't running (it fights Lenis) */
   html:not(.lenis) {
     scroll-behavior: smooth;

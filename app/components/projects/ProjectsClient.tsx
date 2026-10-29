@@ -1,102 +1,87 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Project } from "@/lib/getProjects";
 import ProjectCard from "./ProjectCard";
-import { motion, AnimatePresence, Variants } from "framer-motion";
 
-
+// UI/UX first: that's what recruiters for UI/UX roles want to see
 const categories = [
+  { label: "UI/UX", key: "uiux" },
+  { label: "Frontend", key: "frontend" },
   { label: "Fullstack", key: "fullstack" },
-  { label: "UI|UX", key: "uiux" },
-  { label: "Frontend", key: "frontend" }
+  { label: "All", key: "all" },
 ];
 
-// const containerVariants: Variants = {
-//   hidden: { opacity: 0 },
-//   show: {
-//     opacity: 1,
-//     transition: {
-//       staggerChildren: 0.12,
-//     },
-//   },
-// };
-
-const cardVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-    scale: 0.98,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-
+const categoryOf = (p: Project) => p.category_id?.trim().toLowerCase();
 
 export default function ProjectsClient({ projects }: { projects: Project[] }) {
-  const [active, setActive] = useState("fullstack");
+  const [active, setActive] = useState("uiux");
 
-  const filtered = projects.filter(
-    (p) => p.category_id?.trim().toLowerCase() === active
-  );
+  const filtered =
+    active === "all" ? projects : projects.filter((p) => categoryOf(p) === active);
+
+  const countFor = (key: string) =>
+    key === "all" ? projects.length : projects.filter((p) => categoryOf(p) === key).length;
 
   return (
-    <div className="text-center">
-      <h2 className="text-2xl font-lato">Projects</h2>
-      <p className="text-white/70 mt-2">
-        Real-world solutions, pixel-perfect designs, and interactive experiences.
-      </p>
+    <div className="mt-16 md:mt-20">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/50">All projects</h3>
 
-      {/* TABS */}
-      <div className="flex justify-center gap-6 mt-8 flex-wrap">
-        {categories.map((cat) => (
-          <button
-            key={cat.key}
-            onClick={() => setActive(cat.key)}
-            className={`relative px-4 py-2 text-md md:text-lg font-lato transition
-              ${active === cat.key ? "text-white" : "text-white/60"}`}
-          >
-            {cat.label}
-            {active === cat.key && (
-              <span className="absolute left-0 -bottom-1 h-[2px] w-full bg-gradient-to-r from-[#00e586] to-[#007343]" />
-            )}
-          </button>
-        ))}
+        {/* TABS with a sliding indicator */}
+        <div
+          role="tablist"
+          aria-label="Filter projects"
+          className="flex w-fit gap-1 rounded-full border border-white/10 bg-white/5 p-1"
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat.key}
+              role="tab"
+              aria-selected={active === cat.key}
+              onClick={() => setActive(cat.key)}
+              className={`relative rounded-full px-3.5 sm:px-4 py-2 text-sm transition-colors ${
+                active === cat.key ? "text-[#0F0E16] font-semibold" : "text-white/70 hover:text-white"
+              }`}
+            >
+              {active === cat.key && (
+                <motion.span
+                  layoutId="project-tab"
+                  className="absolute inset-0 rounded-full bg-[#00E586]"
+                  transition={{ type: "spring", stiffness: 400, damping: 34 }}
+                />
+              )}
+              <span className="relative">
+                {cat.label}
+                <span className={`ml-1.5 hidden sm:inline text-xs ${active === cat.key ? "text-[#0F0E16]/70" : "text-white/40"}`}>
+                  {countFor(cat.key)}
+                </span>
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* GRID */}
-      {/* GRID */}
-<motion.div
-  className="mt-14 flex flex-wrap justify-center gap-12"
-  // variants={containerVariants}
-  initial="hidden"
-  whileInView="show"
-  viewport={{ once: false }} // 👈 re-animates every time
->
-  <AnimatePresence>
-    {filtered.map((project) => (
-      <motion.div
-        key={project.id}
-        variants={cardVariants}
-        layout
-        initial="hidden"
-        animate="show"
-        exit="hidden"
-      >
-        <ProjectCard project={project} />
-      </motion.div>
-    ))}
-  </AnimatePresence>
-</motion.div>
-
+      <motion.ul layout className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <AnimatePresence mode="popLayout">
+          {filtered.map((project, i) => (
+            <motion.li
+              key={project.id}
+              layout
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.5, delay: Math.min(i, 5) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+              className="h-full"
+            >
+              <ProjectCard project={project} />
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </motion.ul>
     </div>
   );
 }

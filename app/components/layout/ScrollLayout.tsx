@@ -69,13 +69,14 @@ export default function ScrollLayout({ heroData, projects }: Props) {
 "
 >
 
-  <Services />
+  {/* Work first: it's what recruiters came for */}
+  {projects}
 
   <About />
 
   <Stacks />
 
-  {projects}
+  <Services />
 
   <Contact />
 
