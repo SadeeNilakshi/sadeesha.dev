@@ -10,7 +10,8 @@
 }
 
 @layer base {
-  html {
+  /* Native smooth scrolling only when Lenis isn't running (it fights Lenis) */
+  html:not(.lenis) {
     scroll-behavior: smooth;
   }
 
@@ -30,6 +31,25 @@
   :where(a, button, [role="button"], input, textarea, summary):focus-visible {
     outline: 2px solid #00e586;
     outline-offset: 3px;
+  }
+}
+
+/* HERO BACKGROUND TEXTURES */
+.dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 75%);
+}
+
+.grain {
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Short phones: drop the hero artwork so the text fits on the first screen */
+@media (max-width: 1023px) and (max-height: 700px) {
+  .hero-art {
+    display: none;
   }
 }
 
@@ -213,7 +233,7 @@
 
 /* Respect the OS "reduce motion" setting */
 @media (prefers-reduced-motion: reduce) {
-  html {
+  html:not(.lenis) {
     scroll-behavior: auto;
   }
 

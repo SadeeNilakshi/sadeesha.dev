@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Inter, Lato } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Providers from "./components/Providers";
+import { getHeroData } from "./lib/getHeroData";
 import { site } from "./lib/site";
 
 
@@ -79,11 +81,16 @@ const personJsonLd = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // The navbar's Resume button; if Firestore fails the button is just hidden
+  const cv = await getHeroData()
+    .then((data) => data.cv)
+    .catch(() => null);
+
   return (
     <html lang="en" className={`${inter.variable} ${lato.variable}`}>
       <body className="bg-[#0F0E16] text-white">
@@ -91,8 +98,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-         <Navbar />
-        {children}
+        <Providers>
+          <Navbar cv={cv} />
+          {children}
+        </Providers>
         <Analytics />
         <SpeedInsights/>
       </body>

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { db } from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -7,7 +8,8 @@ export type HeroData = {
   cv: string | null;
 };
 
-export async function getHeroData(): Promise<HeroData> {
+// cache(): the layout (navbar Resume link) and the page share one Firestore read per render
+export const getHeroData = cache(async (): Promise<HeroData> => {
   // Experience
   const expSnap = await getDoc(doc(db, "experience", "main"));
 
@@ -31,4 +33,4 @@ export async function getHeroData(): Promise<HeroData> {
     experience,
     cv,
   };
-}
+});
