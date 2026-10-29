@@ -22,8 +22,14 @@ export async function getProjects(): Promise<Project[]> {
 
   const snap = await getDocs(q);
 
-  return snap.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Omit<Project, "id">),
-  }));
+  return snap.docs.map((doc) => {
+    // createdAt is a Firestore Timestamp (not a plain object), so it can't be
+    // passed to Client Components; it's only needed for the orderBy above.
+    const data = doc.data();
+    delete data.createdAt;
+    return {
+      id: doc.id,
+      ...(data as Omit<Project, "id">),
+    };
+  });
 }

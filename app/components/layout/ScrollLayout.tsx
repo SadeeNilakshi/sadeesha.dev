@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
@@ -8,7 +8,6 @@ import HeroClient from "../hero/HeroClient";
 import Services from "../sections/Services";
 import About from "../sections/AboutClient";
 import Stacks from "../sections/Stacks";
-import Projects from "../projects/Projects";
 import Contact from "../sections/Contact";
 import Footer from "../sections/Footer";
 
@@ -19,10 +18,11 @@ type Props = {
     experience: number;
     cv: string | null;
   };
+  projects: ReactNode;
 };
 
 
-export default function ScrollLayout({ heroData }: Props) {
+export default function ScrollLayout({ heroData, projects }: Props) {
   const heroRef = useRef<HTMLDivElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
 
@@ -81,7 +81,7 @@ export default function ScrollLayout({ heroData }: Props) {
   </section>
 
   <section id="projects">
-    <Projects />
+    {projects}
   </section>
 
   <section id="contact">
