@@ -10,7 +10,7 @@ import { setScrollLocked } from "./motion/SmoothScroll";
 import { site } from "@/lib/site";
 
 const navLinks = [
-  { name: "Work", id: "projects" },
+  { name: "Projects", id: "projects" },
   { name: "About", id: "about" },
   { name: "Skills", id: "stacks" },
   { name: "Services", id: "services" },
