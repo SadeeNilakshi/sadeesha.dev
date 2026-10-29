@@ -1,42 +1,36 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Brand tokens → bg-ink, text-accent, font-lato, font-inter */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: #0f0e16;
+  --color-accent: #00e586;
+  --font-sans: var(--next-font-lato), ui-sans-serif, system-ui, sans-serif;
+  --font-lato: var(--next-font-lato), ui-sans-serif, system-ui, sans-serif;
+  --font-inter: var(--next-font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-lato);
-  overflow-x: hidden;
-}
+  body {
+    background-color: #0f0e16;
+    color: #ffffff;
+    font-family: var(--next-font-lato), ui-sans-serif, system-ui, sans-serif;
+    overflow-x: hidden;
+  }
 
-html {
-  scroll-behavior: smooth;
-}
+  /* Anchor jumps land below the floating navbar */
+  section[id] {
+    scroll-margin-top: 6rem;
+  }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  /* Visible keyboard focus everywhere */
+  :where(a, button, [role="button"], input, textarea, summary):focus-visible {
+    outline: 2px solid #00e586;
+    outline-offset: 3px;
+  }
 }
 
 /* FRAME SECTION */
@@ -217,4 +211,17 @@ html {
   animation: ring-enter 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+/* Respect the OS "reduce motion" setting */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -61,7 +61,7 @@ export default function AboutClient() {
 
         <p>
           Hey there! I’m{" "}
-          <span className="text-[#00E586] font-medium font-xl">
+          <span className="text-[#00E586] font-medium">
             Sadeesha Nilakshini
           </span>
           , a frontend developer and UI/UX designer who turns bold ideas into
@@ -71,7 +71,7 @@ export default function AboutClient() {
         </p>
 
         <p>
-          Whether it’s a responsive web app or a seamless mobile UI, I believeation should feel intuitive, delightful, and human.
+          Whether it’s a responsive web app or a seamless mobile UI, I believe every interaction should feel intuitive, delightful, and human.
           I design with empathy and build with precision — crafting user-first
           interfaces that don’t just look good, but feel right.
         </p>

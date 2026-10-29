@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Project } from "@/lib/getProjects";
 import { Maximize2, X } from "lucide-react";
@@ -9,7 +9,25 @@ import { FaGithub, FaFigma } from "react-icons/fa";
 export default function ProjectCard({ project }: { project: Project }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const modalVideoRef = useRef<HTMLVideoElement | null>(null);
+  const expandRef = useRef<HTMLButtonElement | null>(null);
+  const closeRef = useRef<HTMLButtonElement | null>(null);
   const [showModal, setShowModal] = useState(false);
+
+  /* ⌨️ Esc closes the video; focus starts on the close button */
+  useEffect(() => {
+    if (!showModal) return;
+    closeRef.current?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      modalVideoRef.current?.pause();
+      setShowModal(false);
+      expandRef.current?.focus();
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showModal]);
 
   const handleMouseEnter = () => {
     if (videoRef.current) {
@@ -35,6 +53,7 @@ export default function ProjectCard({ project }: { project: Project }) {
   const closeModal = () => {
     modalVideoRef.current?.pause();
     setShowModal(false);
+    expandRef.current?.focus(); // return focus to the button that opened it
   };
 
   const isUIUX = !!project.video;
@@ -78,6 +97,8 @@ export default function ProjectCard({ project }: { project: Project }) {
 
               {/* Expand */}
               <button
+                ref={expandRef}
+                aria-label={`Play ${project.name} video full screen`}
                 onClick={(e) => {
                   e.stopPropagation();
                   openModal();
@@ -93,6 +114,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               src={project.img}
               alt={project.name}
               fill
+              sizes="(max-width: 768px) 330px, 360px"
               className="object-cover"
             />
           ) : (
@@ -119,6 +141,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               <a
   href={project.git_link || project.live_link}
   target="_blank"
+  rel="noopener noreferrer"
   className="
     group flex items-center gap-2 px-5 py-2.5 text-sm
     font-lato rounded-full
@@ -142,6 +165,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               <a
                 href={project.live_link}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="px-4 py-2 text-sm rounded-full font-lato
                 border border-white/40 text-white/80
                 hover:bg-white hover:text-black transition"
@@ -155,6 +179,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               <a
                 href={project.usecase_pdf}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="px-4 py-2 text-sm rounded-full font-lato
                 border border-white/40 text-white/80
                 hover:bg-white hover:text-black transition"
@@ -173,11 +198,16 @@ export default function ProjectCard({ project }: { project: Project }) {
           onClick={closeModal}
         >
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${project.name} video`}
             className="relative w-[90%] max-w-4xl"
             onClick={(e) => e.stopPropagation()}
           >
             <button
+              ref={closeRef}
               onClick={closeModal}
+              aria-label="Close video"
               className="absolute -top-10 right-0 text-white hover:text-red-400"
             >
               <X size={28} />

@@ -17,48 +17,56 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("hero");
 
-  /* 🔥 Scroll morph */
+  /* 🔥 Scroll morph + 🎯 active section detection.
+     Measured on scroll (not IntersectionObserver) because the hero is sticky —
+     it always intersects — and sections may stream in after this mounts. */
   useEffect(() => {
-    const onScroll = () => {
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
       setScrolled(window.scrollY > 40);
-    };
 
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  /* 🎯 Active section detection */
-useEffect(() => {
-  const sections = document.querySelectorAll("section[id]");
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActive(entry.target.id);
+      // The section whose top most recently passed 40% of the viewport wins
+      const line = window.innerHeight * 0.4;
+      let current = "hero";
+      let closest = -Infinity;
+      navLinks.forEach(({ href }) => {
+        const id = href.slice(1);
+        if (id === "hero") return;
+        const top = document.getElementById(id)?.getBoundingClientRect().top;
+        if (top !== undefined && top <= line && top > closest) {
+          closest = top;
+          current = id;
         }
       });
-    },
-    {
-      rootMargin: "-50% 0px -40% 0px",
-      threshold: 0,
-    }
-  );
+      setActive(current);
+    };
 
-  sections.forEach((section) => observer.observe(section));
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
 
-  return () => observer.disconnect();
-}, []);
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
 
 
   return (
     <nav
+  aria-label="Primary"
   className={`
     fixed top-4 right-4 md:left-1/2 md:-translate-x-1/2 md:right-auto z-50
     w-fit max-w-[95vw]
     px-4 py-1 md:px-10
- rounded-xl 
+ rounded-xl
     transition-all duration-500 ease-out
     ${
       scrolled
@@ -68,7 +76,7 @@ useEffect(() => {
   `}
 >
 
-      <div className="max-w-7xl mx-auto px-4 py-2 md:px-6 md:py-4 
+      <div className="max-w-7xl mx-auto px-4 py-2 md:px-6 md:py-4
                 flex items-center justify-between gap-6">
 
 
@@ -81,6 +89,7 @@ useEffect(() => {
               <Link
                 key={link.name}
                 href={link.href}
+                aria-current={active === id ? "location" : undefined}
                 className={`relative group transition ${
                   active === id
                     ? "text-white"
@@ -107,19 +116,22 @@ useEffect(() => {
 
         {/* Mobile Button */}
         <button
-  className="md:hidden ml-auto text-white text-xl 
-             w-9 h-9 flex items-center justify-center 
+  className="md:hidden ml-auto text-white text-xl
+             w-9 h-9 flex items-center justify-center
              rounded-lg hover:bg-white/10 transition"
   onClick={() => setOpen(!open)}
+  aria-label={open ? "Close menu" : "Open menu"}
+  aria-expanded={open}
+  aria-controls="mobile-menu"
 >
-  ☰
+  <span aria-hidden="true">☰</span>
 </button>
 
       </div>
 
       {/* 📱 Mobile Menu */}
       {open && (
-        <div className="md:hidden pb-3 rounded-2xl mt-2 shadow-[0_20px_40px_rgba(0,0,0,0.5)">
+        <div id="mobile-menu" className="md:hidden pb-3 rounded-2xl mt-2 shadow-[0_20px_40px_rgba(0,0,0,0.5)">
 
           <div className="flex flex-col ">
             {navLinks.map((link) => {
@@ -130,6 +142,7 @@ useEffect(() => {
                   key={link.name}
                   href={link.href}
                   onClick={() => setOpen(false)}
+                  aria-current={active === id ? "location" : undefined}
                   className={`transition text-md py-2 ${
                     active === id
                       ? "text-[#00E586]"

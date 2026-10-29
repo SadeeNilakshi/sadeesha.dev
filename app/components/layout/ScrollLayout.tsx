@@ -58,7 +58,8 @@ export default function ScrollLayout({ heroData, projects }: Props) {
       </section>
 
       {/* 🧩 CONTENT SHEET — FLOATS OVER HERO */}
-      <section
+      {/* Each section component renders its own <section id>, so no wrappers here */}
+      <div
   ref={sheetRef}
   className="
   relative z-20 bg-[#0F0E16]
@@ -68,31 +69,19 @@ export default function ScrollLayout({ heroData, projects }: Props) {
 "
 >
 
-  <section id="services">
-    <Services />
-  </section>
+  <Services />
 
-  <section id="about">
-    <About />
-  </section>
+  <About />
 
-  <section id="stacks">
-    <Stacks />
-  </section>
+  <Stacks />
 
-  <section id="projects">
-    {projects}
-  </section>
+  {projects}
 
-  <section id="contact">
-    <Contact />
-  </section>
+  <Contact />
 
-  <section id="footer">
-    <Footer />
-  </section>
+  <Footer />
 
-</section>
+</div>
     </>
   );
 }

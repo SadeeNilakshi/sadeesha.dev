@@ -129,7 +129,8 @@ function ContactItem({
   return (
     <a
       href={link}
-      target="_blank"
+      // mailto: links open the mail app, so only web links get a new tab
+      {...(link.startsWith("mailto:") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
       className="
         flex items-center gap-2 sm:gap-4
         group min-w-0

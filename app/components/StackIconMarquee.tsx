@@ -1,12 +1,12 @@
 export default function StackIconMarquee() {
   const icons = [
-    "/vscode.png",
-    "/Android_Studio.png",
-    "/intelij.png",
-    "/netbeans.png",
-    "/mysql.png",
-    "/firebase.png",
-    "/git.png",
+    { src: "/vscode.png", name: "VS Code" },
+    { src: "/Android_Studio.png", name: "Android Studio" },
+    { src: "/intelij.png", name: "IntelliJ IDEA" },
+    { src: "/netbeans.png", name: "NetBeans" },
+    { src: "/mysql.png", name: "MySQL" },
+    { src: "/firebase.png", name: "Firebase" },
+    { src: "/git.png", name: "Git" },
   ];
 
   // duplicate for seamless loop
@@ -23,7 +23,7 @@ export default function StackIconMarquee() {
               <div className="frame-layer">
                 <div className="frame-circle-outer"></div>
                 <div className="frame-circle-inner"></div>
-                <img src={icon} alt="stack icon" className="frame-icon" />
+                <img src={icon.src} alt={icon.name} className="frame-icon" />
               </div>
             </div>
           </div>

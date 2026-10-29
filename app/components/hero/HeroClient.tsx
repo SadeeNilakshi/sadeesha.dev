@@ -1,9 +1,7 @@
 "use client";
-export const dynamic = "force-dynamic";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { motion, Variants } from "framer-motion";
-import Particles from "react-tsparticles";
 
 type Props = {
   projects: number;
@@ -81,19 +79,6 @@ export default function HeroClient({ projects, experience, cv }: Props) {
   );
 }, []);
 
-function getDrivePreviewUrl(url: string) {
-  return url.replace("/view", "/preview");
-}
-
-function getDriveDownloadUrl(previewUrl: string) {
-  const match = previewUrl.match(/\/d\/([^/]+)/);
-  if (!match) return previewUrl;
-
-  return `https://drive.google.com/uc?export=download&id=${match[1]}`;
-}
-
-
-
   const projectsRef = useRef<HTMLSpanElement>(null);
   const experienceRef = useRef<HTMLSpanElement>(null);
 
@@ -106,7 +91,7 @@ function getDriveDownloadUrl(previewUrl: string) {
       { innerText: 0 },
       {
         innerText: projects,
-        duration: 6,
+        duration: 2,
         snap: { innerText: 1 },
         ease: "power1.out",
       }
@@ -117,7 +102,7 @@ function getDriveDownloadUrl(previewUrl: string) {
       { innerText: 0 },
       {
         innerText: experience,
-        duration: 6,
+        duration: 2,
         snap: { innerText: 1 },
         ease: "power1.out",
         delay: 0.2,
@@ -140,19 +125,6 @@ function getDriveDownloadUrl(previewUrl: string) {
           animate={{ x: [0, -60, 0], y: [0, 30, 0] }}
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         /> */}
-
-        <Particles
-          className="absolute inset-0"
-          options={{
-            particles: {
-              number: { value: 20 },
-              size: { value: 2 },
-              color: { value: "#00E586" },
-              move: { speed: 0.5 },
-              opacity: { value: 0.5 },
-            },
-          }}
-        />
       </div>
 
       {/* 🧠 Hero Content */}
@@ -193,20 +165,24 @@ function getDriveDownloadUrl(previewUrl: string) {
             animate="show"
           >
             {[
-              { href: "https://github.com/SadeeNilakshi", img: "/git.png" },
+              { href: "https://github.com/SadeeNilakshi", img: "/git.png", label: "GitHub" },
               {
                 href: "https://www.linkedin.com/in/sadeesha-nilakshini-a592b529a/",
                 img: "/business.png",
+                label: "LinkedIn",
               },
               {
                 href: "https://www.tiktok.com/@thatfrontendgirl",
                 img: "/tik_tok.png",
+                label: "TikTok",
               },
             ].map((icon, i) => (
               <motion.a
                 key={i}
                 href={icon.href}
                 target="_blank"
+                rel="noopener noreferrer"
+                aria-label={icon.label}
                 variants={socialItem}
                 whileHover={{ scale: 1.15, y: -3 }}
                 whileTap={{ scale: 0.95 }}
@@ -214,7 +190,7 @@ function getDriveDownloadUrl(previewUrl: string) {
                  shadow-[inset_0px_4px_4px_rgba(255,255,255,0.25)]
                  transition-shadow hover:shadow-[0_0_15px_rgba(0,229,134,0.6)]"
               >
-                <img src={icon.img} className="w-6 h-6" />
+                <img src={icon.img} alt="" className="w-6 h-6" />
               </motion.a>
             ))}
           </motion.div>
@@ -238,30 +214,16 @@ function getDriveDownloadUrl(previewUrl: string) {
             </a>
 
            {cv && (
-  <button
-    onClick={() => {
-      const previewUrl = getDrivePreviewUrl(cv);
-      const downloadUrl = getDriveDownloadUrl(previewUrl);
-
-      // 🚫 kill cache
-      const finalUrl = `${downloadUrl}&nocache=${Date.now()}`;
-
-      // 1️⃣ Open preview (always latest)
-      window.open(previewUrl, "_blank");
-
-      // 2️⃣ Force fresh download
-      const a = document.createElement("a");
-      a.href = finalUrl;
-      a.download = "Sadeesha_Nilakshi_CV.pdf";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }}
+  /* Opens the latest CV on Google Drive, where it can be read or downloaded */
+  <a
+    href={cv}
+    target="_blank"
+    rel="noopener noreferrer"
     className="px-8 py-3 rounded-full border border-[#00E586] text-[#00E586]
                hover:bg-[#00E586]/10 transition"
   >
-    Download CV
-  </button>
+    View CV
+  </a>
 )}
 
 
@@ -288,7 +250,7 @@ function getDriveDownloadUrl(previewUrl: string) {
               <h3 className="text-3xl font-bold text-[#00E586]">
                 <span ref={experienceRef}>0</span>+
               </h3>
-              <p className="text-gray-400">Experience</p>
+              <p className="text-gray-400">Years Experience</p>
             </div>
           </motion.div>
         </div>
@@ -307,6 +269,7 @@ function getDriveDownloadUrl(previewUrl: string) {
           <div className="absolute w-[460px] h-[460px] bg-[#00E586]/30 blur-3xl rounded-full animate-pulse" />
           <img
   src="/profile.png"
+  alt="Neon artwork: Frontend Dev, UI | UX, with Figma, React, TypeScript, JavaScript, VS Code and CSS icons"
   className="hero-image relative z-10 rounded-full
              w-[260px] h-[260px]
              md:w-[440px] md:h-[440px]

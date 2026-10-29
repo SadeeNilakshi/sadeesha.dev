@@ -10,8 +10,8 @@ const firebaseConfig = {
   appId: "1:859735925778:web:83fbe671404c616a81e4cb"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase (reuse the existing app on hot reload / repeated imports)
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 
 // Firestore

@@ -20,7 +20,6 @@ export default function Footer() {
             href="https://wa.me/94743528374"
             target="_blank"
             rel="noopener noreferrer"
-            type="link"
             className="flex items-center gap-3"
           >
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 flex items-center justify-center text-[#00E586]">
@@ -32,14 +31,17 @@ export default function Footer() {
             </span>
           </a>
           {/* Email */}
-          <div className="flex items-center gap-3 min-w-0">
+          <a
+            href="mailto:sadeeshanilakshi25@gmail.com"
+            className="flex items-center gap-3 min-w-0"
+          >
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 flex items-center justify-center text-[#00E586]">
               <FaEnvelope className="text-sm sm:text-base" />
             </div>
             <span className="text-xs sm:text-sm text-white truncate max-w-[220px] sm:max-w-none">
               sadeeshanilakshi25@gmail.com
             </span>
-          </div>
+          </a>
         </div>
 
         {/* DIVIDER */}
